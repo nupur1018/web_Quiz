@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WebDev Quiz — Test Your Skills</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">⚡</div>
+      WebDev Quiz
+    </a>
+    <div class="nav-links">
+      <a href="/"            class="nav-link active">Quiz</a>
+      <a href="/leaderboard" class="nav-link">🏆 Leaderboard</a>
+    </div>
+    <div class="score-pill" style="background:#f0f4ff;border:1.5px solid #dde2f5;border-radius:30px;padding:6px 18px;font-size:13px;font-weight:700;color:#8b90b8;">
+      🏆 Score: <span id="liveScore" style="color:#1a1d2e;font-size:15px;">0</span>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+
+    <!-- ══════════ HOME SCREEN ══════════ -->
+    <div class="screen active" id="screen-home">
+      <div class="home-hero">
+        <h1 class="home-title">Test Your <span>Web Dev</span><br/>Knowledge</h1>
+        <p class="home-sub">Pick topics, choose difficulty, and beat the timer!</p>
+        <div class="home-stats-row">
+          <span class="home-stat"><strong>9</strong> Technologies</span>
+          <span class="home-stat"><strong>70+</strong> Questions</span>
+          <span class="home-stat"><strong>20s</strong> Per Question</span>
+        </div>
+      </div>
+
+      <!-- Player Name -->
+      <div class="name-box">
+        <label for="playerName">Your Name (for the leaderboard)</label>
+        <input type="text" id="playerName" class="name-input"
+               placeholder="Enter your name..." maxlength="30"/>
+      </div>
+
+      <!-- Topics Grid (filled by JS) -->
+      <p class="topics-section-label">Choose Topics</p>
+      <div class="topics-grid" id="topicsGrid">
+        <div style="grid-column:1/-1;text-align:center;padding:24px;color:#8b90b8;">Loading topics...</div>
+      </div>
+
+      <!-- Settings -->
+      <div class="settings-row">
+        <div class="setting-box">
+          <div class="setting-label">Difficulty</div>
+          <div class="setting-options">
+            <button class="opt-btn selected" data-group="diff"   data-val="easy">Easy</button>
+            <button class="opt-btn"          data-group="diff"   data-val="mixed">Mixed</button>
+            <button class="opt-btn"          data-group="diff"   data-val="hard">Hard</button>
+          </div>
+        </div>
+        <div class="setting-box">
+          <div class="setting-label">Questions</div>
+          <div class="setting-options">
+            <button class="opt-btn selected" data-group="qcount" data-val="5">5</button>
+            <button class="opt-btn"          data-group="qcount" data-val="10">10</button>
+            <button class="opt-btn"          data-group="qcount" data-val="15">15</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="start-btn" id="startBtn" disabled>
+        Select at least one topic to start →
+      </button>
+    </div>
+
+    <!-- ══════════ QUIZ SCREEN ══════════ -->
+    <div class="screen" id="screen-quiz">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <div class="q-counter">
+          Question <span id="qNum">1</span> of <span id="qTotal">10</span>
+        </div>
+        <div class="timer-wrap">
+          <span>⏱</span>
+          <span class="timer-val" id="timerVal">20</span>s
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div>
+          <span class="q-badge" id="qBadge">HTML</span>
+          <span class="q-diff-badge" id="qDiffBadge">⭐ Easy</span>
+        </div>
+        <div class="q-text" id="qText"></div>
+        <pre class="q-code" id="qCode" style="display:none"></pre>
+      </div>
+
+      <div class="options-grid" id="optionsGrid"></div>
+
+      <div class="feedback-bar" id="feedbackBar">
+        <span class="fb-icon">✅</span>
+        <div>
+          <div class="fb-title" id="fbTitle"></div>
+          <div class="fb-exp"   id="fbExp"></div>
+        </div>
+      </div>
+
+      <button class="next-btn" id="nextBtn">Next Question →</button>
+    </div>
+
+    <!-- ══════════ RESULTS SCREEN ══════════ -->
+    <div class="screen" id="screen-results">
+      <div class="results-card">
+        <span class="result-emoji" id="resultEmoji">🎉</span>
+        <div class="result-title"  id="resultTitle">Great Job!</div>
+        <div class="result-sub"    id="resultSub">Here's how you did</div>
+
+        <div class="score-circle-wrap">
+          <svg viewBox="0 0 120 120" width="140" height="140">
+            <circle class="circle-track" cx="60" cy="60" r="50"/>
+            <circle class="circle-arc"   cx="60" cy="60" r="50" id="circleArc"/>
+          </svg>
+          <div class="circle-text">
+            <div class="circle-pct" id="circlePct">0%</div>
+            <div class="circle-lbl">Score</div>
+          </div>
+        </div>
+
+        <div class="result-stats">
+          <div class="result-stat">
+            <div class="result-stat-num" style="color:#22c55e" id="statCorrect">0</div>
+            <div class="result-stat-label">Correct</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-num" style="color:#ef4444" id="statWrong">0</div>
+            <div class="result-stat-label">Wrong</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-num" style="color:#f59e0b" id="statTime">0s</div>
+            <div class="result-stat-label">Avg Time</div>
+          </div>
+        </div>
+
+        <div class="topic-perf" id="topicPerf"></div>
+
+        <!-- Save Score -->
+        <div class="save-score-box">
+          <div class="save-score-label">Save to Leaderboard</div>
+          <div class="save-row">
+            <input type="text" class="save-name-input" id="saveNameInput"
+                   placeholder="Your name..." maxlength="30"/>
+            <button class="save-btn" id="saveScoreBtn">Save to Leaderboard</button>
+          </div>
+          <div class="save-success" id="saveSuccess"></div>
+        </div>
+
+        <div class="result-btns">
+          <button class="res-btn res-btn-primary"   id="playAgainBtn">Play Again</button>
+          <button class="res-btn res-btn-secondary" id="changeTopicsBtn">Change Topics</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page-wrap -->
+
+  <div class="toast" id="toast"></div>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

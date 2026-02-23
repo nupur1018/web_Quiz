@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leaderboard — WebDev Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">⚡</div>
+      WebDev Quiz
+    </a>
+    <div class="nav-links">
+      <a href="/"            class="nav-link">Quiz</a>
+      <a href="/leaderboard" class="nav-link active">🏆 Leaderboard</a>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+
+    <div class="lb-header">
+      <h1 class="lb-title">🏆 Leaderboard</h1>
+      <p class="lb-sub">Top scores from all quiz attempts</p>
+    </div>
+
+    <!-- Global Stats -->
+    <div class="lb-stats-row">
+      <div class="lb-stat-card">
+        <div class="lb-stat-num" id="statTotalGames">—</div>
+        <div class="lb-stat-label">Total Games</div>
+      </div>
+      <div class="lb-stat-card">
+        <div class="lb-stat-num" id="statAvgScore">—</div>
+        <div class="lb-stat-label">Avg Score</div>
+      </div>
+      <div class="lb-stat-card">
+        <div class="lb-stat-num" id="statTopScore">—</div>
+        <div class="lb-stat-label">Top Score</div>
+      </div>
+    </div>
+
+    <!-- Leaderboard Table -->
+    <div class="lb-table-wrap">
+      <table class="lb-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Player</th>
+            <th>Score %</th>
+            <th>Result</th>
+            <th>Topics</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="lbBody">
+          <tr>
+            <td colspan="6" style="text-align:center;padding:32px;color:#8b90b8;">
+              Loading leaderboard...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button class="lb-refresh-btn" id="refreshBtn">↻ Refresh</button>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="/static/js/leaderboard.js"></script>
+</body>
+</html>
